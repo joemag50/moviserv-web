@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <%= link_to 'Movi Serv', root_path, class: 'navbar-brand' %>
+    <button class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav ml-auto">
+        <%- unless user_signed_in? %>
+          <li class="nav-item active">
+            <%= link_to 'Log In', new_user_session_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
+          </li>
+        <%- else %>
+          <li class="nav-item active">
+            <%= link_to 'Log Out', destroy_user_session_path, class: 'nav-link', method: :delete %>
+          </li>
+        <%- end %>
+      </ul>
+    </div>
+  </div>
+</nav>
