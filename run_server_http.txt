@@ -1,0 +1,25 @@
+sudo apt-get install wget unzip
+wget https://github.com/msoap/shell2http/releases/download/1.7/shell2http-1.7.linux.amd64.zip
+unzip shell2http-1.7.linux.xxx.zip
+
+nano /etc/systemd/system/moviserv-web.service
+
+==========================
+[Unit]
+Description=Moviserv api
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/root/shell2http /ram "free -m" /disk "df -h" /tasks "ps aux" /reboot "reboot"
+
+[Install]
+WantedBy=multi-user.target
+==========================
+
+systemctl start moviserv-web
+systemctl enable moviserv-web.service
