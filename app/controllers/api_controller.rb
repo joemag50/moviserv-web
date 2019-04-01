@@ -13,7 +13,6 @@ class ApiController < ApplicationController
     render json: { result: true }
   end
 
-  # http://localhost:3000/api/servers?server[user_id]=2
   def servers
     render json: { result: true, object: Server.where(user_id: server_params[:user_id]) }
   end
