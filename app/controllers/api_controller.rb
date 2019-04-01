@@ -15,7 +15,7 @@ class ApiController < ApplicationController
 
   # http://localhost:3000/api/servers?server[user_id]=2
   def servers
-    render json: Server.where(user_id: server_params[:user_id])
+    render json: { result: true, object: Server.where(user_id: server_params[:user_id]) }
   end
 
   def ram
