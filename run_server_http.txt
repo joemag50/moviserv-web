@@ -15,7 +15,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
-ExecStart=/root/shell2http /ram "free -m" /disk "df -h" /tasks "ps aux" /reboot "reboot"
+ExecStart=/root/shell2http /ram "free -m" /disk "df -h" /tasks "ps aux" /reboot "shutdown -r 1"
 
 [Install]
 WantedBy=multi-user.target
@@ -23,3 +23,4 @@ WantedBy=multi-user.target
 
 systemctl start moviserv-web
 systemctl enable moviserv-web.service
+systemctl daemon-reload

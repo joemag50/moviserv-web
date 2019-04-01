@@ -13,36 +13,53 @@ class ApiController < ApplicationController
     render json: { result: true }
   end
 
+  # http://localhost:3000/api/servers?server[user_id]=2
+  def servers
+    render json: Server.where(user_id: server_params[:user_id])
+  end
+
   def ram
-    render json: { result: true, object: [{ server_name: "placeholder 0", avalible: "8GB", used: "3.45GB" },
-                                          { server_name: "placeholder 1", avalible: "4GB", used: "2.10GB" }] }
+    return unless auth_user!
+
+    @object = Server.where(user_id: server_params[:user_id]).map do |server|
+      server.ram
+    end
+    render json: { result: true, object: @object }
   end
 
   def disk
-    render json: { result: true, object: [{ server_name: "placeholder 0", avalible: "800GB", used: "35GB" },
-                                          { server_name: "placeholder 1", avalible: "400GB", used: "20GB" }] }
+    return unless auth_user!
+
+    @object = Server.where(user_id: server_params[:user_id]).map do |server|
+      server.disk
+      server.disk
+    end
+    render json: { result: true, object: @object }
   end
 
   def tasks
-    render json: {
-      result: true,
-      object: {
-        tasks: [
-          { name: "task0", pid: "01", uptime: "1:00:00" },
-          { name: "task1", pid: "02", uptime: "2:00:00" },
-          { name: "task2", pid: "03", uptime: "3:00:00" },
-          { name: "task3", pid: "04", uptime: "4:00:00" },
-          { name: "task4", pid: "05", uptime: "5:00:00" }
-        ]
-      }
-    }
+    return unless auth_user!
+
+    @object = Server.where(user_id: server_params[:user_id]).map do |server|
+      server.tasks
+    end
+    render json: { result: true, object: @object }
   end
 
   def reboot
-    render json: { result: true, object: { message: 'Favor de esperar' } }
+    Server.find(reboot_params[:server_id]).reboot
+    render json: { result: true, object: { message: 'En 1 minuto se reiniciara el servidor' } }
   end
 
   private
+
+  def reboot_params
+    params.require(:reboot).permit(:server_id)
+  end
+
+  def server_params
+    params.require(:server).permit(:user_id)
+  end
 
   def user_params
     params.require(:user).permit(:email, :password)

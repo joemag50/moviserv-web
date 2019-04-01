@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get :ram
     get :disk
     get :tasks
-
-    post '/server/reboot/:id', to: 'api#reboot'
+    get :servers
+    get :reboot
   end
 end
