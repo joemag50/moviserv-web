@@ -89,7 +89,7 @@ class Server < ApplicationRecord
       mem_total_usage: mem_total_usage,
       server_id: self.id,
       tableHead: ['Name','Pid', 'Status','Stop', 'Start'],
-      tableData: server_tasks.order(:pid).map { |x| [x.name, x.pid, x.status, 'button1', 'button2'] }
+      tableData: server_tasks.order(:pid).map { |x| [x.name, x.pid, x.status, x.pid, x.pid] }
     }
   end
 
