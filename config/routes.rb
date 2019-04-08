@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     get :tasks
     get :servers
     get :reboot
+    get :start_task
+    get :stop_task
   end
 end

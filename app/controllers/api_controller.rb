@@ -45,6 +45,24 @@ class ApiController < ApplicationController
     render json: { result: true, object: @object }
   end
 
+  def stop_task
+    return unless auth_user!
+
+    @object = Server.find(task_params[:server_id])
+    @object.stop_task(task_params[:pid])
+    @object.update_tasks
+    render json: { result: true, object: @object.server_tasks }
+  end
+
+  def start_task
+    return unless auth_user!
+
+    @object = Server.find(task_params[:server_id])
+    @object.start_task(task_params[:pid])
+    @object.update_tasks
+    render json: { result: true, object: @object.server_tasks }
+  end
+
   def reboot
     Server.find(reboot_params[:server_id]).reboot
     render json: { result: true, object: { message: 'En 1 minuto se reiniciara el servidor' } }
@@ -62,6 +80,10 @@ class ApiController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password)
+  end
+
+  def task_params
+    params.require(:task).permit(:server_id, :pid, :action)
   end
 
   def auth_user!
