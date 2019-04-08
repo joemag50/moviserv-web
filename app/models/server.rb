@@ -87,8 +87,8 @@ class Server < ApplicationRecord
       name: self.name,
       cpu_total_usage: cpu_total_usage,
       mem_total_usage: mem_total_usage,
-      tableHead: ['Name','Pid','Stop', 'Start'],
-      tableData: server_tasks.order(:pid).map { |x| [x.name, x.pid, 'button1', 'button2'] }
+      tableHead: ['Name','Pid', 'Status','Stop', 'Start'],
+      tableData: server_tasks.order(:pid).map { |x| [x.name, x.pid, x.status, 'button1', 'button2'] }
     }
   end
 
