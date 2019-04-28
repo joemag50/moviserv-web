@@ -14,5 +14,7 @@ Rails.application.routes.draw do
     get :reboot
     get :start_task
     get :stop_task
+    get :create_account
+    get :create_server
   end
 end

@@ -1,4 +1,26 @@
 class ApiController < ApplicationController
+  def create_account
+    @user = User.new user_params
+    if @user.save
+      @user.new_session
+      render json: { result: true, object: @user }
+    else
+      render json: { result: false, object: @user.errors }
+    end
+  end
+
+  def create_server
+    return unless auth_user!
+
+    @server = Server.new create_server_params
+    @server.user_id = @user.id
+    if @server.save
+      render json: { result: true, object: @server }
+    else
+      render json: { result: false, object: @server.errors }
+    end
+  end
+
   def login
     return unless auth_user!
 
@@ -69,6 +91,10 @@ class ApiController < ApplicationController
   end
 
   private
+
+  def create_server_params
+    params.require(:server).permit(:name, :address)
+  end
 
   def reboot_params
     params.require(:reboot).permit(:server_id)

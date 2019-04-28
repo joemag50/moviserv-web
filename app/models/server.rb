@@ -1,6 +1,8 @@
 class Server < ApplicationRecord
   after_create :initialize_tasks
 
+  validates :name, :address, presence: true
+
   TASKS = %i[ kthreadd kworker/0:0H mm_percpu_wq ksoftirqd/0 rcu_sched rcu_bh
               migration/0 watchdog/0 cpuhp/0 kdevtmpfs netns rcu_tasks_kthre
               kauditd khungtaskd oom_reaper writeback kcompactd0 ksmd khugepaged
@@ -95,6 +97,14 @@ class Server < ApplicationRecord
 
   def reboot
     HTTParty.get(self.address + '/reboot')
+  end
+
+  def databases
+    {
+      server_name:  self.name,
+      db_name: 'db_name',
+      users_conected: 1
+    }
   end
 
   private
