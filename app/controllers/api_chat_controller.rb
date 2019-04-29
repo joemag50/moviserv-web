@@ -1,6 +1,10 @@
 class ApiChatController < ApplicationController
   def new_chat
     return unless auth_user!
+    unless User.find_by(email: new_chat_params[:email])
+      render json: { result: false, object: "No existe el correo" }
+      return
+    end
 
     attrs = {
       to_user: User.find_by(email: new_chat_params[:email]).id,
