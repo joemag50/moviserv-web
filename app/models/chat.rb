@@ -23,7 +23,7 @@ class Chat < ApplicationRecord
         chat_id: chat.id,
         partner_email: User.find(chat.from_user).email
       }
-      result << chat
+      result << x
     }
 
     result
