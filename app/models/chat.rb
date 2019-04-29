@@ -10,11 +10,19 @@ class Chat < ApplicationRecord
   def self.find_my_chats(params = {})
     result = []
 
-    Chat.where(from_user: params[:user_id]).map { |chat| 
-      result << chat
+    Chat.where(from_user: params[:user_id]).map { |chat|
+      x = {
+        chat_id: chat.id,
+        partner_email: User.find(chat.to_user).email
+      }
+      result << x
     }
 
-    Chat.where(to_user: params[:user_id]).map { |chat| 
+    Chat.where(to_user: params[:user_id]).map { |chat|
+      x = {
+        chat_id: chat.id,
+        partner_email: User.find(chat.from_user).email
+      }
       result << chat
     }
 
