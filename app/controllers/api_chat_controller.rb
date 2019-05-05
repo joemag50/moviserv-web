@@ -38,7 +38,8 @@ class ApiChatController < ApplicationController
     @chat = Chat.find_chat(user_id: @user.id, receiver_id: @receiver.id)
     attrs = {
       message: params[:message],
-      chat_id: @chat.id
+      chat_id: @chat.id,
+      user_id: @user.id
     }
     @message = Message.new attrs
     @message.save
