@@ -44,7 +44,7 @@ class ApiChatController < ApplicationController
     @message = Message.new attrs
     @message.save
     attrs = {
-      message: @message.message
+      message: @message.message,
       chat_id: @message.chat_id,
       user: @message.user.email
     }
