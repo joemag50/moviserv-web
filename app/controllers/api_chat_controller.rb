@@ -43,7 +43,12 @@ class ApiChatController < ApplicationController
     }
     @message = Message.new attrs
     @message.save
-    render json: { result: true, object: @message }
+    attrs = {
+      message: @message.message
+      chat_id: @message.chat_id,
+      user: @message.user.email
+    }
+    render json: { result: true, object: attrs }
   end
 
   private
