@@ -1,4 +1,5 @@
 class Chat < ApplicationRecord
+  has_many :messages, dependent: :destroy
 
   def self.find_chat(params = {})
     result = Chat.find_by(from_user: params[:user_id],

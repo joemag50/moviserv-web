@@ -90,10 +90,19 @@ class ApiController < ApplicationController
     render json: { result: true, object: { message: 'En 1 minuto se reiniciara el servidor' } }
   end
 
+  def db_stats
+    @object = Server.find(db_params[:server_id])
+    render json: { result: true, object: @object.database }
+  end
+
   private
 
   def create_server_params
     params.require(:server).permit(:name, :address)
+  end
+
+  def db_params
+    params.require(:db).permit(:server_id)
   end
 
   def reboot_params

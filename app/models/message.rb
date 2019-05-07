@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
   belongs_to :user
+  belongs_to :chat
 
   before_save :save_email
 

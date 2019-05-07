@@ -1,5 +1,7 @@
 class Server < ApplicationRecord
-  after_create :initialize_tasks
+  has_one :db_server, dependent: :destroy
+
+  after_create :initialize_tasks, :database_init
 
   validates :name, :address, presence: true
 
@@ -99,15 +101,17 @@ class Server < ApplicationRecord
     HTTParty.get(self.address + '/reboot')
   end
 
-  def databases
-    {
-      server_name:  self.name,
-      db_name: 'db_name',
-      users_conected: 1
-    }
+  def database
+    db_server.db_analitics
   end
 
   private
+
+  def database_init
+    db = DbServer.new(server_id: self.id)
+    db.save
+    db.populate
+  end
 
   def cpu_total_usage
     total = 0

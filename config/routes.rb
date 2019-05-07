@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     get :tasks
     get :servers
     get :reboot
+    get :db_stats
     get :start_task
     get :stop_task
     get :create_account
