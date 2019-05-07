@@ -95,6 +95,12 @@ class ApiController < ApplicationController
     render json: { result: true, object: @object.database }
   end
 
+  def db_remove_user
+    @object = DbUser.find(params[:id])
+    @object.destroy
+    render json: { result: true, object: @object }
+  end
+
   private
 
   def create_server_params
