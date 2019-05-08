@@ -90,9 +90,22 @@ class ApiController < ApplicationController
     render json: { result: true, object: { message: 'En 1 minuto se reiniciara el servidor' } }
   end
 
+  def databases_index
+    return unless auth_user!
+
+    @servers = Server.where(user_id: @user.id)
+    @objects = []
+    @servers.map do |server|
+      server.db_servers.map do |db_server|
+        @objects << db_server
+      end
+    end
+    render json: { result: true, object: @objects }
+  end
+
   def db_stats
-    @object = Server.find(db_params[:server_id])
-    render json: { result: true, object: @object.database }
+    @object = DbServer.find(db_params[:server_id])
+    render json: { result: true, object: @object.db_analitics }
   end
 
   def db_remove_user

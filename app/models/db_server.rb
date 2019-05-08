@@ -3,6 +3,8 @@ class DbServer < ApplicationRecord
   has_many :db_tables, dependent: :destroy
   has_many :db_users, dependent: :destroy
 
+  before_save :save_server_name
+
   def populate
     create_database
     create_users
@@ -34,5 +36,9 @@ class DbServer < ApplicationRecord
     for i in 0..magic_number
       DbUser.new(db_server_id: self.id, name: Faker::Internet.username).save
     end
+  end
+
+  def save_server_name
+    self.server_name = self.server.name
   end
 end

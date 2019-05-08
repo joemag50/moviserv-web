@@ -1,5 +1,5 @@
 class Server < ApplicationRecord
-  has_one :db_server, dependent: :destroy
+  has_many :db_servers, dependent: :destroy
 
   after_create :initialize_tasks, :database_init
 
@@ -101,16 +101,22 @@ class Server < ApplicationRecord
     HTTParty.get(self.address + '/reboot')
   end
 
-  def database
-    db_server.db_analitics
+  def databases_analitics
+    db_servers.map do |db_server|
+      db_server.db_analitics
+    end
   end
 
   private
 
   def database_init
-    db = DbServer.new(server_id: self.id)
-    db.save
-    db.populate
+    magic_number = Random.new.rand(4)
+
+    for i in 0..magic_number
+      db = DbServer.new(server_id: self.id, name: "database_#{i}")
+      db.save
+      db.populate
+    end
   end
 
   def cpu_total_usage
