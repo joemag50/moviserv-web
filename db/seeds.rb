@@ -6,6 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+User.create(email: 'test@test.com', password: '123456')
+
 TASKS = %i[ kthreadd kworker/0:0H mm_percpu_wq ksoftirqd/0 rcu_sched rcu_bh
             migration/0 watchdog/0 cpuhp/0 kdevtmpfs netns rcu_tasks_kthre
             kauditd khungtaskd oom_reaper writeback kcompactd0 ksmd khugepaged
